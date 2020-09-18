@@ -1,0 +1,59 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>product</th>
+                <th>price</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr class="item">
+            <td class="pname">abcd</td>
+            <td class="price">200</td class="price">
+        </tr>
+        <tr class="item">
+            <td class="pname">dfdf</td>
+            <td class="price">250</td>
+        </tr>
+        </tbody>
+    </table>
+    <br><br>
+    <button>buy </button>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    var pdata = [];
+    $('button').click(function(){
+        $('tr.item').each(function(index,ele){
+            var store = {
+              pname:$(this).find('.pname').text(),
+              price:$(this).find('.price').text()
+            }
+           pdata.push(store);
+        });
+        $.ajax({
+           method:'POST',
+           url:'http://localhost:3000/checkout',
+           dataType:'JSON',
+           data:{da:pdata},
+           success:function(data){
+               if(data['msg']==true){
+                   alert('order placed');
+               }
+           },
+           error:function(){
+               alert('some errror occured');
+           }
+        });
+    });
+});
+</script>
+</html>
